@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Make sudo actually work
+HOSTNAME=$(cat /etc/hostname)
+echo "127.0.1.1 $HOSTNAME" >> /etc/hosts
+hostname $HOSTNAME
+
+if [ "$INITSYSTEM" != "on" ]; then
+  /usr/sbin/sshd -p 80 &
+fi
+
+sleep 5
+
+xinit /usr/src/app/launch_app.sh -- -nocursor
